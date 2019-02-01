@@ -172,9 +172,9 @@ class Connection extends \Illuminate\Database\Connection {
     }
   }
 
-  public function rollBack()
+  public function rollBack($toLevel = NULL)
   {
-    parent::rollBack();
+    parent::rollBack($toLevel);
 
     if ($this->transactions == 0 && $this->pdo->getAttribute(PDO::ATTR_AUTOCOMMIT) == 0) {
       $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
