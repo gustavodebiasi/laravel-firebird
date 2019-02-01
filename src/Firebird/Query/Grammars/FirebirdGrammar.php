@@ -117,7 +117,7 @@ class FirebirdGrammar extends Grammar {
   public function compileInsertGetId(Builder $query, $values, $sequence)
   {
     if (is_null($sequence)) {
-      $sequence = 'id';
+      $sequence = 'ID';
     }
 
     return $this->compileInsert($query, $values)
