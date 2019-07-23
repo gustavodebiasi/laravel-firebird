@@ -54,6 +54,8 @@ class Connection extends \Illuminate\Database\Connection {
     $this->useDefaultQueryGrammar();
 
     $this->useDefaultPostProcessor();
+
+    $this->executeAuthProcedure();
   }
   /**
    * Return the DSN string from configuration
@@ -179,5 +181,27 @@ class Connection extends \Illuminate\Database\Connection {
     if ($this->transactions == 0 && $this->pdo->getAttribute(PDO::ATTR_AUTOCOMMIT) == 0) {
       $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
     }
+  }
+
+  protected function executeAuthProcedure()
+  {
+    $version = $this->select(
+      'SELECT CODIGO_VERSAO FROM VERSAO WHERE NUMERO_VERSAO = 197'
+    );
+
+    if (!count($version)) {
+      return;
+    }
+
+    $appName = mb_convert_encoding(
+      substr($this->config['appname'], 0, 30),
+      'Windows-1252'
+    );
+
+    $this->statement(
+      'execute procedure SP_USUARIO_CONTEXTO(\'' . $appName . '\')'
+    );
+
+    $this->statement('UPDATE PESSOA SET COD_CID = 2 WHERE COD_PES = 900');
   }
 }
