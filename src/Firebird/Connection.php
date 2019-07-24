@@ -201,7 +201,5 @@ class Connection extends \Illuminate\Database\Connection {
     $this->statement(
       'execute procedure SP_USUARIO_CONTEXTO(\'' . $appName . '\')'
     );
-
-    $this->statement('UPDATE PESSOA SET COD_CID = 2 WHERE COD_PES = 900');
   }
 }
