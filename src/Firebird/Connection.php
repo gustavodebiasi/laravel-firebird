@@ -55,7 +55,9 @@ class Connection extends \Illuminate\Database\Connection {
 
     $this->useDefaultPostProcessor();
 
-    $this->executeAuthProcedure();
+    if (isset($this->config['appname'])) {
+      $this->executeAuthProcedure();
+    }
   }
   /**
    * Return the DSN string from configuration
